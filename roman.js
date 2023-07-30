@@ -20,36 +20,36 @@ D          500
 M          1,000
  */
 
-MM = 1000 + 1000;
-XX = 10 + 10;
-III = 1 + 1 + 1;
+// MM = 1000 + 1000;
+// XX = 10 + 10;
+// III = 1 + 1 + 1;
 
 function solution(roman) {
-  // for (let i = 0; i < roman.length; i++) {
-  //   const el = roman[i];
-
-  //   if (el === 'M') {
-  //     number.push(1000);
-  //   } else if (el === 'D') {
-  //     number.push(500);
-  //   } else if (el === 'C') {
-  //     number.push(100);
-  //   } else if (el === 'L') {
-  //     number.push(50);
-  //   } else if (el === 'X') {
-  //     number.push(10);
-  //   } else if (el === 'V') {
-  //     number.push(5);
-  //   } else if (el === 'I') {
-  //     number.push(1);
-  //   }
-  // }
-
+  const grouped = [];
   const reg =
-    /(?<=^)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?=$)/gm;
-  const number = roman.match(reg);
+    /(?<=^)(M{0,4})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?=$)/g;
 
-  return number;
+  let number = roman.split(reg);
+
+  number.pop();
+  number.shift();
+
+  // if (/CM/.test(number)) {
+  // } else if (/CD/.test(number)) {
+  // } else if (/XC/.test(number)) {
+  // } else
+  if (/X/.test(number)) grouped.push(10);
+  if (/IX/.test(number)) grouped.push(9);
+  if (/V/.test(number) && !/IV/.test(number)) grouped.push(5);
+  if (/IV/.test(number)) grouped.push(4);
+  if (/I$/.test(number)) grouped.push(1);
+
+  /**
+   * What are we looking for
+   * M - multiple times
+   * Depending on the pattern found it will map out what is found
+   */
+  return grouped.reduce((acc, cur) => acc + cur, 0);
 }
 
-console.log(solution('MDCLXVI'));
+console.log(solution('XIII'));
