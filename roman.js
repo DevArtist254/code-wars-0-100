@@ -29,27 +29,43 @@ function solution(roman) {
   const reg =
     /(?<=^)(M{0,4})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})(?=$)/g;
 
-  let number = roman.split(reg);
+  let number = roman.split(reg).filter((el) => !(el === ''));
 
-  number.pop();
-  number.shift();
+  console.log(number);
 
-  // if (/CM/.test(number)) {
-  // } else if (/CD/.test(number)) {
-  // } else if (/XC/.test(number)) {
-  // } else
-  if (/X/.test(number)) grouped.push(10);
+  if (/C/.test(number) && !/XC/.test(number))
+    roman
+      .match(/C+/)[0]
+      .split('')
+      .map((el) => grouped.push(100));
+  if (/XC/.test(number)) grouped.push(90);
+  if (/L/.test(number) && !/XL/.test(number)) grouped.push(50);
+  if (/XL/.test(number)) grouped.push(40);
+  if (/X/.test(number) && !/XL/.test(number) && !/XC/.test(number))
+    roman
+      .match(/X+/)[0]
+      .split('')
+      .map((el) => grouped.push(10));
   if (/IX/.test(number)) grouped.push(9);
   if (/V/.test(number) && !/IV/.test(number)) grouped.push(5);
   if (/IV/.test(number)) grouped.push(4);
-  if (/I$/.test(number)) grouped.push(1);
+  if (/I$/.test(number))
+    roman
+      .match(/I+/)[0]
+      .split('')
+      .map((el) => grouped.push(1));
+  //.map((el, i, arr) => (arr.length <= 3 ? grouped.push(1) : 'error'));
 
   /**
+   *
    * What are we looking for
    * M - multiple times
    * Depending on the pattern found it will map out what is found
    */
+  console.log(grouped);
   return grouped.reduce((acc, cur) => acc + cur, 0);
 }
 
-console.log(solution('XIII'));
+console.log(solution('CCCLXXVII'));
+
+//If someone writes more XXX
