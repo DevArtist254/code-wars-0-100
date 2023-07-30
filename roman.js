@@ -32,8 +32,20 @@ function solution(roman) {
   let number = roman.split(reg).filter((el) => !(el === ''));
 
   console.log(number);
-
-  if (/C/.test(number) && !/XC/.test(number))
+  if (/^M/.test(number))
+    roman
+      .match(/M+/)[0]
+      .split('')
+      .map((el) => grouped.push(1000));
+  if (/CM/.test(number)) grouped.push(900);
+  if (/D/.test(number) && !/CD/.test(number)) grouped.push(500);
+  if (/CD/.test(number)) grouped.push(400);
+  if (
+    /C/.test(number) &&
+    !/CD/.test(number) &&
+    !/CM/.test(number) &&
+    !/XC/.test(number)
+  )
     roman
       .match(/C+/)[0]
       .split('')
@@ -41,7 +53,12 @@ function solution(roman) {
   if (/XC/.test(number)) grouped.push(90);
   if (/L/.test(number) && !/XL/.test(number)) grouped.push(50);
   if (/XL/.test(number)) grouped.push(40);
-  if (/X/.test(number) && !/XL/.test(number) && !/XC/.test(number))
+  if (
+    /X/.test(number) &&
+    !/XL/.test(number) &&
+    !/XC/.test(number) &&
+    !/IX/.test(number)
+  )
     roman
       .match(/X+/)[0]
       .split('')
@@ -66,6 +83,6 @@ function solution(roman) {
   return grouped.reduce((acc, cur) => acc + cur, 0);
 }
 
-console.log(solution('CCCLXXVII'));
+console.log(solution('MMMDCXCVII'));
 
 //If someone writes more XXX
