@@ -40,31 +40,34 @@ function solution(roman) {
   if (/CM/.test(number)) grouped.push(900);
   if (/D/.test(number) && !/CD/.test(number)) grouped.push(500);
   if (/CD/.test(number)) grouped.push(400);
-  if (
-    /C/.test(number) &&
-    !/CD/.test(number) &&
-    !/CM/.test(number) &&
-    !/XC/.test(number)
-  )
+  if (/C/.test(number) && !/CD/.test(number) && !/CM/.test(number))
     roman
       .match(/C+/)[0]
       .split('')
       .map((el) => grouped.push(100));
   if (/XC/.test(number)) grouped.push(90);
-  if (/L/.test(number) && !/XL/.test(number)) grouped.push(50);
+  if (/L/.test(number) && !/XL/.test(number))
+    roman
+      .match(/L+/)[0]
+      .split('')
+      .map((el) => grouped.push(50));
   if (/XL/.test(number)) grouped.push(40);
   if (
     /X/.test(number) &&
     !/XL/.test(number) &&
-    !/XC/.test(number) &&
-    !/IX/.test(number)
+    !/XC/.test(number)
+    // !/IX/.test(number)
   )
     roman
       .match(/X+/)[0]
       .split('')
       .map((el) => grouped.push(10));
   if (/IX/.test(number)) grouped.push(9);
-  if (/V/.test(number) && !/IV/.test(number)) grouped.push(5);
+  if (/V/.test(number) && !/IV/.test(number))
+    roman
+      .match(/V+/)[0]
+      .split('')
+      .map((el) => grouped.push(5));
   if (/IV/.test(number)) grouped.push(4);
   if (/I$/.test(number))
     roman
@@ -83,6 +86,6 @@ function solution(roman) {
   return grouped.reduce((acc, cur) => acc + cur, 0);
 }
 
-console.log(solution('MMMDCXCVII'));
+console.log(solution('MMCDLXXIX'));
 
 //If someone writes more XXX
